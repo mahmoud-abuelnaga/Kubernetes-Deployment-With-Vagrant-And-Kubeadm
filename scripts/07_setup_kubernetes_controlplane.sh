@@ -16,7 +16,7 @@ sudo systemctl enable --now kubelet
 sudo kubeadm init \
   --pod-network-cidr="$pod_network_cidr" \
   --apiserver-advertise-address="$interface_ip" \
-  --upload-certs | tee /tmp/kubeadm_init_output.txt > /dev/null
+  --upload-certs | tee /tmp/kubeadm_init_output.txt
 
 # join command
 grep "kubeadm join" /tmp/kubeadm_init_output.txt > /tmp/join_command.txt

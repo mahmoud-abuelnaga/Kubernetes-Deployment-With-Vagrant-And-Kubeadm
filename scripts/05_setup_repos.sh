@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # kubernetes repo
-cat <<EOF | sudo tee /etc/yum.repos.d/kubernetes.repo > /dev/null
+cat << EOF | sudo tee /etc/yum.repos.d/kubernetes.repo > /dev/null
 [kubernetes]
 name=Kubernetes
 baseurl=https://pkgs.k8s.io/core:/stable:/v1.35/rpm/

@@ -13,5 +13,6 @@ cat << EOF > /etc/firewalld/services/k8s-controlplane.xml
 </service>
 EOF
 
+sudo firewall-cmd --reload
 sudo firewall-cmd --permanent --add-service=k8s-controlplane
 sudo firewall-cmd --reload

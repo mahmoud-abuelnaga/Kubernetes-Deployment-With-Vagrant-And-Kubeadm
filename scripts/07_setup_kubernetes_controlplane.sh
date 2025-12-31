@@ -5,7 +5,7 @@ pod_network_cidr="192.168.0.0/16"
 interface_ip=$(ip route | grep default | head -n 1 | awk '{print $9}')
 
 # packages
-sudo dnf install 'dnf-command(versionlock)'
+sudo dnf install -y 'dnf-command(versionlock)'
 sudo dnf install -y kubeadm kubelet kubectl
 sudo dnf versionlock add kubeadm kubelet kubectl
 

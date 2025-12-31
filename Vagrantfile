@@ -19,7 +19,6 @@ Vagrant.configure("2") do |config|
 
       node.vm.hostname = cp[:name]
       node.vm.network "private_network", ip: cp[:ip], libvirt__forward_mode: "nat"
-      node.vm.swappiness = 0
 
       node.vm.provider "libvirt" do |libvirt|
         libvirt.cpus = cp[:cpu]

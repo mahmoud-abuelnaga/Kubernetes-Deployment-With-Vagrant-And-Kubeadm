@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cat << EOF > /etc/firewalld/services/k8s-controlplane.xml
+cat <<EOF >/etc/firewalld/services/k8s-controlplane.xml
 <?xml version="1.0" encoding="utf-8"?>
 <service>
   <short>Kubernetes Control Plane</short>
@@ -10,6 +10,7 @@ cat << EOF > /etc/firewalld/services/k8s-controlplane.xml
   <port protocol="tcp" port="10250"/>
   <port protocol="tcp" port="10259"/>
   <port protocol="tcp" port="10257"/>
+  <port protocol="tcp" port="30000-32767"/>
 </service>
 EOF
 

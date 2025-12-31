@@ -19,7 +19,7 @@ sudo kubeadm init \
   --upload-certs | tee /tmp/kubeadm_init_output.txt
 
 # join command
-grep "kubeadm join" /tmp/kubeadm_init_output.txt > /tmp/join_command.txt
+grep -A 1 "kubeadm join" /tmp/kubeadm_init_output.txt > /tmp/join_command.txt
 
 # kubectl config
 echo "KUBECONFIG=/etc/kubernetes/admin.conf" >> /etc/environment

@@ -15,6 +15,7 @@ cat <<EOF >/etc/firewalld/services/k8s-controlplane.xml
   <port protocol="tcp" port="10259"/>
   <port protocol="tcp" port="10257"/>
   <port protocol="tcp" port="30000-32767"/>
+  <port protocol="udp" port="30000-32767"/>
 </service>
 EOF
 

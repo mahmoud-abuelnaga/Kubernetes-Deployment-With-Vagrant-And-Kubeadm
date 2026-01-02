@@ -6,12 +6,18 @@ set -u          # Treat unset variables as an error
 
 # variables
 pod_network_cidr=$1
-interface_ip=$(ip route | grep default | head -n 1 | awk '{print $9}')
+# Get the IP from the private network interface (not the Vagrant NAT interface)
+interface_ip=$(ip -4 addr show | grep -oP '192\.168\.122\.\d+' | head -n 1)
 
 # packages
 sudo dnf install -y 'dnf-command(versionlock)'
 sudo dnf install -y kubeadm kubelet kubectl
 sudo dnf versionlock add kubeadm kubelet kubectl
+
+# Configure kubelet to use the correct node IP
+cat <<EOF | sudo tee /etc/default/kubelet
+KUBELET_EXTRA_ARGS=--node-ip=${interface_ip}
+EOF
 
 # services
 sudo systemctl enable --now kubelet

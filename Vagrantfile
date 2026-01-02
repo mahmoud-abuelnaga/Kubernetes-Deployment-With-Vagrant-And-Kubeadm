@@ -117,7 +117,7 @@ Vagrant.configure('2') do |config|
       node.vm.provision 'shell', path: 'scripts/05_setup_repos.sh'
       node.vm.provision 'shell', path: 'scripts/06_setup_container_runtime.sh'
       node.vm.provision 'shell', path: 'scripts/07_setup_kubernetes_worker.sh', args: [pod_network_cidr]
-      node.vm.provision 'shell', path: 'scripts/08_setup_pod_networking_worker.sh'
+      node.vm.provision 'shell', path: 'scripts/08_setup_pod_networking_worker.sh', args: [pod_network_cidr]
       node.vm.provision 'shell', path: 'tmp/execute_join_command.sh'
     end
   end

@@ -5,7 +5,7 @@ set -o pipefail # Prevent errors in a pipeline from being masked
 set -u          # Treat unset variables as an error
 
 # packages
-sudo dnf install -y containerd.io
+sudo dnf install -y containerd.io-2.2.0
 
 # configuration
 sudo mkdir -p /etc/containerd

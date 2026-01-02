@@ -15,12 +15,18 @@ sudo dnf install -y kubeadm kubelet kubectl
 sudo dnf versionlock add kubeadm kubelet kubectl
 
 # Configure kubelet to use the correct node IP
-cat <<EOF | sudo tee /etc/default/kubelet
+# cat <<EOF | sudo tee /etc/default/kubelet
+# KUBELET_EXTRA_ARGS=--node-ip=${interface_ip}
+# EOF
+
+cat <<EOF | sudo tee /etc/sysconfig/kubelet
 KUBELET_EXTRA_ARGS=--node-ip=${interface_ip}
 EOF
 
 # services
+sudo systemctl daemon-reload
 sudo systemctl enable --now kubelet
+sudo systemctl restart kubelet
 
 # kubeadm init
 sudo kubeadm init \

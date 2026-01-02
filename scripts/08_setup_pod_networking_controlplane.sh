@@ -37,8 +37,54 @@ while ! kubectl get pods -n tigera-operator | grep -i running; do
   sleep 10
 done
 
-wget https://raw.githubusercontent.com/projectcalico/calico/v3.31.3/manifests/custom-resources.yaml
-sed -i "s|192.168.0.0/16|${pod_network_cidr}|" custom-resources.yaml
+cat <<EOF >custom-resources.yaml
+# This section includes base Calico installation configuration.
+# For more information, see: https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.Installation
+apiVersion: operator.tigera.io/v1
+kind: Installation
+metadata:
+  name: default
+spec:
+  # Configures Calico networking.
+  calicoNetwork:
+    nodeAddressAutodetectionV4:
+      kubernetes: NodeInternalIP
+    ipPools:
+      - name: default-ipv4-ippool
+        blockSize: 26
+        cidr: ${pod_network_cidr}
+        encapsulation: VXLANCrossSubnet
+        natOutgoing: Enabled
+        nodeSelector: all()
+
+---
+# This section configures the Calico API server.
+# For more information, see: https://docs.tigera.io/calico/latest/reference/installation/api#operator.tigera.io/v1.APIServer
+apiVersion: operator.tigera.io/v1
+kind: APIServer
+metadata:
+  name: default
+spec: {}
+
+---
+# Configures the Calico Goldmane flow aggregator.
+apiVersion: operator.tigera.io/v1
+kind: Goldmane
+metadata:
+  name: default
+
+---
+# Configures the Calico Whisker observability UI.
+apiVersion: operator.tigera.io/v1
+kind: Whisker
+metadata:
+  name: default
+
+EOF
+
+# Trust the pod network CIDR in firewall to allow pod-to-pod communication
+sudo firewall-cmd --permanent --add-source="${pod_network_cidr}" --zone=trusted
+sudo firewall-cmd --reload
 kubectl apply -f custom-resources.yaml
 
 while kubectl get tigerastatus 2>&1 | grep -i "no resources found"; do

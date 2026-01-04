@@ -3,7 +3,7 @@ box = 'centos/stream10'
 box_version = '20251223.1'
 
 controlplanes = [
-  { name: 'controlplane01', ip: '192.168.122.10', cpu: 2, mem: 2048 }
+  { name: 'controlplane01', ip: '192.168.122.10', cpu: 2, mem: 2048 } # no more control planes can be added for now
 ]
 
 workers = [
